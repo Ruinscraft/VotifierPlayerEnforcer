@@ -22,8 +22,9 @@ public class VotifierPlayerEnforcerPlugin extends JavaPlugin implements Listener
     public void onVote(VotifierEvent event) {
         String username = event.getVote().getUsername();
 
-        if (Bukkit.getOfflinePlayer(username) == null) {
+        if (!Bukkit.getOfflinePlayer(username).hasPlayedBefore()) {
             try {
+                System.out.println("Vote from " + username + " is being changed because they haven't played before.");
                 stripUsernameFromVoteEvent(event);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -33,8 +34,8 @@ public class VotifierPlayerEnforcerPlugin extends JavaPlugin implements Listener
 
     private void stripUsernameFromVoteEvent(VotifierEvent event) throws Exception {
         Vote vote = event.getVote();
-        vote.setUsername("?");
-        Field voteField = event.getClass().getField("vote");
+        vote.setUsername("dukesmart");
+        Field voteField = event.getClass().getDeclaredField("vote");
         voteField.setAccessible(true);
         voteField.set(event, vote);
     }

@@ -1,11 +1,14 @@
 package com.ruinscraft.votifierplayerenforcer;
 
+import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.lang.reflect.Field;
 
 public class VotifierPlayerEnforcerPlugin extends JavaPlugin implements Listener {
 
@@ -20,8 +23,20 @@ public class VotifierPlayerEnforcerPlugin extends JavaPlugin implements Listener
         String username = event.getVote().getUsername();
 
         if (Bukkit.getOfflinePlayer(username) == null) {
-            event.getVote().setUsername("?");
+            try {
+                stripUsernameFromVoteEvent(event);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private void stripUsernameFromVoteEvent(VotifierEvent event) throws Exception {
+        Vote vote = event.getVote();
+        vote.setUsername("?");
+        Field voteField = event.getClass().getField("vote");
+        voteField.setAccessible(true);
+        voteField.set(event, vote);
     }
 
 }

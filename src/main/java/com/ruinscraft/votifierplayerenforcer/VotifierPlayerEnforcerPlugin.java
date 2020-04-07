@@ -3,6 +3,7 @@ package com.ruinscraft.votifierplayerenforcer;
 import com.vexsoftware.votifier.model.VotifierEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,7 +15,7 @@ public class VotifierPlayerEnforcerPlugin extends JavaPlugin implements Listener
     }
 
     // if the user hasn't played before, don't show the username
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onVote(VotifierEvent event) {
         String username = event.getVote().getUsername();
 

@@ -1,0 +1,6 @@
+name: ${name}
+version: ${version}
+main: ${mainClass}
+author: royalkingkb
+api-version: 1.13
+depend: [Votifier]

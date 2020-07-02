@@ -22,6 +22,10 @@ public class VotifierPlayerEnforcerPlugin extends JavaPlugin implements Listener
     public void onVote(VotifierEvent event) {
         String username = event.getVote().getUsername();
 
+        if (Bukkit.getPlayer(username) != null) {
+            return;
+        }
+
         if (!Bukkit.getOfflinePlayer(username).hasPlayedBefore()) {
             try {
                 System.out.println("Vote from " + username + " is being changed because they haven't played before.");
